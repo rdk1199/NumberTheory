@@ -8,13 +8,15 @@
 
 void benchmark_gcds()
 {
-    constexpr size_t num_tests = 100000;
+    constexpr size_t num_tests = 1000000;
 
-    uint64_t arr0[num_tests];
-    uint64_t arr1[num_tests];
-    uint64_t std_gcd[num_tests];
-    uint64_t euclid_gcd_result[num_tests];
-    uint64_t binary_gcd_result[num_tests];
+    static uint64_t arr0[num_tests];
+    static uint64_t arr1[num_tests];
+    static uint64_t std_gcd[num_tests];
+    static uint64_t euclid_gcd_result[num_tests];
+    static uint64_t binary_gcd_result[num_tests];
+
+    std::cout << "Starting GCD tests" << std::endl;
 
     for(size_t i = 0; i < num_tests; i++)
     {
