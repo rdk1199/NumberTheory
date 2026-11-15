@@ -1,16 +1,16 @@
 SRC_DIRS := . ./Lib
-SRC_FILES := $(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.cpp))
+SRC_FILES := $(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.cpp) $(wildcard $(dir)/*.h))
 ASM_SRC_FILES := $(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.asm))
 vpath %.asm $(SRC_DIRS)
 LDFLAGS := -lpthread
-CXXFLAGS := -g -mavx -mfma -O0 -std=c++23 -I./Lib
+CXXFLAGS := -g -mavx -mfma -O3 -std=c++23 -I./Lib
 ASM_CXXFLAGS := -S $(CXXFLAGS)
 
 OBJ_FILES := $(addprefix build/,$(notdir $(ASM_SRC_FILES:.asm=.o)))
 
 .PHONY: test build gdb clean
 
-test: build/test.bin
+test: build/test.bin makefile
 	./build/test.bin
 
 build: build/test.bin
