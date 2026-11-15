@@ -12,18 +12,21 @@ LOOP:
   test rsi, rsi
   jz DONE
   mov r9, rdi
-  or r9, rsi
+  and r9, rsi
   test r9, 1
-  jnz SOME_ODD
-  shr rdi, 1    ;both even case
-  shr rsi, 1
-  inc rcx
+  jnz BOTH_ODD
+  tzcnt r9, rdi
+  tzcnt r10, rsi
+  shrx rdi, rdi, r9
+  shrx rsi, rsi, r10
+  sub r9, r10
+  mov r11, r9
+  sar r11, 63
+  and r11, r9
+  add r11, r10
+  add rcx, r11
   jmp LOOP
-SOME_ODD:
-  test rdi, 1
-  jz A_EVEN_B_ODD
-  test rsi, 1
-  jz B_EVEN_A_ODD
+BOTH_ODD:
   mov r9, rdi  ; both odd case  
   sub r9, rsi  ; branchless max (diff & sign bit) - r9 = a-b
   mov r10, r9  ; r10 = a - b
@@ -33,12 +36,6 @@ SOME_ODD:
   sub rdi, r10 ; a = max(a, b)
   sub rsi, rdi ; b = a + b - max(a,b) = min(a,b)
   sub rdi, rsi ; a = max(a,b) - min(a,b)
-  jmp LOOP
-A_EVEN_B_ODD:
-  shr rdi, 1
-  jmp LOOP
-B_EVEN_A_ODD:
-  shr rsi, 1
   jmp LOOP
 DONE:            ; at least one of the operands is 0
   add rdi, rsi   ; rdi = a + b = a or b (since at least one is 0)

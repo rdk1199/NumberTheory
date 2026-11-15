@@ -53,13 +53,15 @@ void benchmark_gcds()
     {
         if(euclid_gcd_result[i] != std_gcd[i])
         {
+            std::cout << i << std::endl;
             std::cout << "std_gcd(" << arr0[i] << "," << arr1[i] << "): " << std_gcd[i] << std::endl;
             std::cout << "euclid_gcd(" << arr0[i] << "," << arr1[i] << "): " << euclid_gcd_result[i] << std::endl;
             abort();
         }
 
         if(binary_gcd_result[i] != std_gcd[i])
-        {
+        {   
+            std::cout << i << std::endl;
             std::cout << "std_gcd(" << arr0[i] << "," << arr1[i] << "): " << std_gcd[i] << std::endl;
             std::cout << "binary_gcd(" << arr0[i] << "," << arr1[i] << "): " << binary_gcd_result[i] << std::endl;
             abort();
