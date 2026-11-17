@@ -7,5 +7,6 @@
 int main()
 {
     benchmark_gcds();
+    benchmark_mod_exp();
     return 0;
 }
