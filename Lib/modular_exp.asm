@@ -1,7 +1,7 @@
 section .text
 global modular_exp
 
-;Modular exponentiation
+; Modular exponentiation
 ; rdi = base
 ; rsi = power
 ; rdx = modulus
@@ -22,9 +22,10 @@ FINISH_LOOP:
   shr rsi, 1
   imul rdi, rdi
   xor rdx, rdx    ; mod the base as well
-  xchg rdi, rax   ; put the result in rdi and base in rax
-  div r8 ; divide ; -> rdx holds the result
-  mov rax, rdi    ; -> put the result back in rax 
+  mov rcx, rax    ; move current result into rcx
+  mov rax, rdi    ; move base into rax for div
+  div r8          ; divide -> rdx holds the modulo result
+  mov rax, rcx    ; -> put the result back in rax 
   mov rdi, rdx    ; -> put mod result in rdi 
   jmp LOOP
 DONE:
