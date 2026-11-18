@@ -13,7 +13,10 @@ extern "C"
     // Compute (base^power) % mod
     uint64_t modular_exp(uint64_t base, uint64_t power, uint64_t mod);
 
+    bool is_power_of_two(uint64_t n);
 }
+
+uint64_t gcd(uint64_t a, uint64_t b);
 
 uint64_t cpp_modular_exp(uint64_t base, uint64_t power, uint64_t mod)
 {

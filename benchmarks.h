@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bit>
+#include <cassert>
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
@@ -89,7 +91,7 @@ void benchmark_gcds()
 
 void benchmark_mod_exp()
 {
-        constexpr size_t num_tests = 1000000;
+    constexpr size_t num_tests = 1000000;
 
     static uint64_t base[num_tests];
     static uint64_t power[num_tests];
@@ -132,5 +134,49 @@ void benchmark_mod_exp()
             std::cout << "Base: " << base[i] << ", Power: " << power[i] << ", Mod: " << mod[i] << std::endl;
             std::cout << "cpp result: " << cpp_result[i] << ", asm result: " << asm_result[i] << std::endl;
         }
+    }
+}
+
+void benchmark_power_of_two()
+{
+    constexpr size_t num_tests = 1000000;
+
+    static uint64_t nums[num_tests];
+
+    static bool asm_results[num_tests];
+    static bool std_results[num_tests];
+
+    // The odds of getting a power of two randomly are very small
+    nums[0] = 0;
+
+    for(size_t i = 1; i < 65; i++)
+    {
+        nums[i] = 1 << (i-1);
+    }
+
+    for(size_t i = 65; i < num_tests; i++)
+    {
+        nums[i] = rand();
+    }
+
+    BENCHMARK(
+        for(size_t i = 0; i < num_tests; i++)
+        {   
+            asm_results[i] = is_power_of_two(nums[i]);
+        },
+        asm_power_of_two
+    )
+
+    BENCHMARK(
+        for(size_t i = 0; i < num_tests; i++)
+        {
+            std_results[i] = std::has_single_bit(nums[i]);
+        },
+        std_power_of_two
+    )
+
+    for(size_t i = 0; i < num_tests; i++)
+    {
+        assert(asm_results[i] == std_results[i]);
     }
 }

@@ -8,5 +8,6 @@ int main()
 {
     benchmark_gcds();
     benchmark_mod_exp();
+    benchmark_power_of_two();
     return 0;
 }
